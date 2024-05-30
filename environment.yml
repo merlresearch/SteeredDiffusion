@@ -1,0 +1,45 @@
+# Copyright (C) 2023-2024 Mitsubishi Electric Research Laboratories (MERL)
+#
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+name: SteeredDiffusion
+channels:
+  - pytorch
+  - conda-forge
+  - defaults
+dependencies:
+  - cffi=1.15.0=py37h7f8727e_0
+  - cudatoolkit=11.3.1=h2bc3f7f_2
+  - git=2.19.1=pl526h7fee0ce_0
+  - ipython=7.33.0=py37h89c1867_0
+  - pip=22.3.1=pyhd8ed1ab_0
+  - python=3.7.0=h6e4f718_3
+  - pytorch=1.11.0=py3.7_cuda11.3_cudnn8.2.0_0
+  - urllib3=1.26.9=py37h06a4308_0
+  - pip:
+    - git+https://github.com/openai/CLIP.git@a1d071733d7111c9c014f024669f959182114e33
+    - easydict==1.10
+    - einops==0.6.0
+    - git+https://github.com/FacePerceiver/facer.git@b2e4fcb94fa8db7cff1a053b6c6441131274c074
+    - huggingface-hub==0.12.1
+    - kornia==0.5.0
+    - lpips==0.1.4
+    - matplotlib==3.5.3
+    - numpy==1.21.6
+    - omegaconf==2.1.2
+    - open-clip-torch==2.7.0
+    - opencv-python==4.6.0.66
+    - pandas==1.1.5
+    - pillow==9.1.1
+    - pyyaml==6.0
+    - scikit-image==0.19.3
+    - scikit-learn==1.0.2
+    - scipy==1.7.3
+    - timm==0.9.12
+    - tokenizers==0.12.1
+    - torchmetrics==0.11.0
+    - torchvision==0.12.0
+    - tqdm==4.64.1
+    - transformers==4.19.2
+    - webdataset==0.2.31
+    - yarl==1.8.2

@@ -1,0 +1,88 @@
+# Copyright (c) 2023-2024 Mitsubishi Electric Research Laboratories (MERL)
+#
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+checkpoints:
+  arcface:  checkpoints/arc face18.pth
+  faceparse: checkpoints/face_parse.pth
+  ffhq: checkpoints/diffusion256x256.pt
+  vggface: checkpoints/VGG_FACE.pth
+  farlclip: checkpoints/FaRL-Base-Patch16-LAIONFace20M-ep64.pth     #./checkpoints/FaRL-Base-Patch16-LAIONFace20M-ep16.pth
+data:
+  init_image: ./input_example/faces/4.jpg
+  mask_image: ./input_example/masks/4.png
+
+gpu_id: 0
+manual_seed: 0
+name: Diff_edit
+
+
+diffusion_network:
+  attention_resolutions: '32,16,8'
+  class_cond: false
+  diffusion_steps: 1000
+  image_size: 256
+  learn_sigma: true
+  noise_schedule: linear
+  num_channels: 256
+  num_head_channels: 64
+  num_res_blocks: 2
+  resblock_updown: true
+  rescale_timesteps: true
+  timestep_respacing: '100'
+  use_fp16: True
+  use_scale_shift_norm: true
+
+num_gpu: 1
+
+
+networks:
+  VGGface:
+    checkpoint: ./checkpoints/VGG_FACE.pth
+    multiscale:
+          use: false
+          min_t: 0
+          max_t: 100
+          lambda: 10
+
+
+  Semantics:
+    criterion: nn.BCEWithLogitsLoss
+    face_segment_parse:
+          use: false
+          min_t: 0
+          max_t: 100
+          lambda:  20000
+
+  FARL:
+    checkpoint: ./checkpoints/FaRL-Base-Patch16-LAIONFace20M-ep64.pth
+    farlclip:
+          use: false
+          min_t: 0
+          max_t: 90
+          lambda: 1500
+          prompt: A woman with blonde hair
+    farledit:
+          use: false
+          min_t: 0
+          max_t: 90
+          lambda: 100
+          prompt: Red hair
+    farlidentity:
+          use: false
+          min_t: 0
+          max_t: 100
+          lambda: 3000
+
+
+
+params:
+  batch_size: 1
+  image_size: 256
+  cond: Semantics
+  scale_factor: 4
+  use_ddim: false
+  results_dir: ./results
+  data_path_fold: ./data
+
+seed: 404
